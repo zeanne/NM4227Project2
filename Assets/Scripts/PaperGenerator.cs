@@ -41,12 +41,6 @@ public class PaperGenerator : MonoBehaviour {
 		wastePaperArray = Resources.LoadAll<Sprite> ("singlewaste");
 	}
 
-	void LateUpdate() {
-		float newScaleFactor = 1.0f + angstBar.value / BAR_MAX;
-		Debug.Log (newScaleFactor);
-		angstBar.handleRect.transform.localScale.Set (newScaleFactor, newScaleFactor, newScaleFactor);
-	}
-	
 	// Update is called once per frame
 	void Update () {
 		timeToSpawn -= Time.deltaTime;
