@@ -11,6 +11,8 @@ public class PaperGenerator : MonoBehaviour {
 	public Text caughtText;
 	public GameObject gameOverBox;
 
+	private Sprite[] wastePaperArray;
+
 	private float timeToSpawn;
 	private int paperCaught = 0;
 	private int paperDropped = 0;
@@ -35,15 +37,28 @@ public class PaperGenerator : MonoBehaviour {
 		angstBar.value = BAR_MIN;
 	
 		caughtText.text = "Caught: 0...";
+
+		wastePaperArray = Resources.LoadAll<Sprite> ("singlewaste");
+	}
+
+	void LateUpdate() {
+		float newScaleFactor = 1.0f + angstBar.value / BAR_MAX;
+		Debug.Log (newScaleFactor);
+		angstBar.handleRect.transform.localScale.Set (newScaleFactor, newScaleFactor, newScaleFactor);
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		timeToSpawn -= Time.deltaTime;
 		if (timeToSpawn < 0) {
+
+			Sprite nextColor = wastePaperArray[Random.Range(0, wastePaperArray.Length - 1)];
+			paperPrefab.GetComponent<SpriteRenderer>().sprite = nextColor;
+
 			GameObject paper = Instantiate (paperPrefab);
 			paper.transform.SetParent (this.transform);
 			timeToSpawn = Random.value * 5;
+
 		}
 
 		spriteNum = Mathf.Min(paperDropped / 10, 10);
