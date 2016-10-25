@@ -51,11 +51,11 @@ public class PaperGenerator : MonoBehaviour {
 
 			GameObject paper = Instantiate (paperPrefab);
 			paper.transform.SetParent (this.transform);
-			timeToSpawn = Random.value * 5;
+			timeToSpawn = Random.value * 3;
 
 		}
 
-		spriteNum = Mathf.Min(paperDropped / 10, 10);
+		spriteNum = Mathf.Min(paperDropped / 5, 10);
 		Sprite ppbg = Resources.Load<Sprite> ("papercover" + spriteNum);
 
 		if (spriteNum == 0) {
