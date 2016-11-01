@@ -14,6 +14,9 @@ public class PaperController : MonoBehaviour {
 	private string TAG_PLAYER = "Player";
 	private string TAG_FLOOR = "Floor";
 
+	private string TAG_CLOCK = "Clock";
+	private string TAG_BROOM = "Broom";
+	private string TAG_PAPER = "Paper";
 
 	// Use this for initialization
 	void Start () {
@@ -51,13 +54,22 @@ public class PaperController : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D other) {
 		if (!counted) {
-			
-			if (other.gameObject.CompareTag (TAG_PLAYER)) {
-				Fade ();
-				this.SendMessageUpwards ("OnPaperCaught");
-			} else if (other.gameObject.CompareTag (TAG_FLOOR)) {
-				Fade ();
-				this.SendMessageUpwards ("OnPaperDropped");
+			Fade ();
+
+			if (other.gameObject.CompareTag (TAG_FLOOR)) {
+				this.SendMessageUpwards ("OnObjectDropped");
+
+			} else if (other.gameObject.CompareTag (TAG_PLAYER)) {
+
+				if (gameObject.CompareTag (TAG_PAPER)) {
+					this.SendMessageUpwards ("OnPaperCaught");
+
+				} else if (gameObject.CompareTag (TAG_CLOCK)) {
+					other.gameObject.SendMessage ("OnClockCaught");
+
+				} else if (gameObject.CompareTag (TAG_BROOM)) {
+					this.SendMessageUpwards ("OnBroomCaught");
+				}
 			}
 		}
 	}
