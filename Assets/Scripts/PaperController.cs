@@ -54,12 +54,13 @@ public class PaperController : MonoBehaviour {
 
 	void OnCollisionEnter2D(Collision2D other) {
 		if (!counted) {
-			Fade ();
 
 			if (other.gameObject.CompareTag (TAG_FLOOR)) {
 				this.SendMessageUpwards ("OnObjectDropped");
+				Fade ();
 
 			} else if (other.gameObject.CompareTag (TAG_PLAYER)) {
+				Fade ();
 
 				if (gameObject.CompareTag (TAG_PAPER)) {
 					this.SendMessageUpwards ("OnPaperCaught");
@@ -73,5 +74,4 @@ public class PaperController : MonoBehaviour {
 			}
 		}
 	}
-
 }
