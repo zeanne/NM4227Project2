@@ -99,7 +99,7 @@ public class GameController : MonoBehaviour {
 		Invoke ("StartNextMonologueSlow", 127f);
 		Invoke ("StartNextMonologueSlow", 139f); // faster
 		Invoke ("StartNextMonologueSlow", 145f);
-		Invoke ("StartNextMonologueSlow", 157f); // shrink
+		Invoke ("StartNextMonologueSlow", 170f); // shrink
 		Invoke ("StartNextMonologueSlow", 185f); // dim
 		Invoke ("StartNextMonologueFast", 203f);
 
@@ -143,7 +143,7 @@ public class GameController : MonoBehaviour {
 		Invoke ("throwPaperFaster", 141f);
 
 
-		// shrink basket - 155seconds
+		// shrink basket
 		Invoke ("shrinkBasket", 155f);
 
 
@@ -221,9 +221,9 @@ public class GameController : MonoBehaviour {
 			// initial scale = 0.5, final = 0.35
 			Vector3 scale = player.transform.localScale;
 
-			scale.x = Mathf.Max(scale.x - 0.0005f, 0.35f);
-			scale.y = Mathf.Max(scale.y - 0.0005f, 0.35f);
-			scale.z = Mathf.Max(scale.z - 0.0005f, 0.35f);
+			scale.x = Mathf.Max(scale.x - 0.0001f, 0.35f);
+			scale.y = Mathf.Max(scale.y - 0.0001f, 0.35f);
+			scale.z = Mathf.Max(scale.z - 0.0001f, 0.35f);
 
 			player.transform.localScale = scale;
 
