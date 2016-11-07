@@ -38,7 +38,6 @@ public class GameController : MonoBehaviour {
 	bool fadeAngstBar = false;
 	bool shrink = false;
 	bool dimScreen = false;
-	bool dimScreenEpilogue = false;
 	bool epilogueStarted = false;
 	bool epilogueEnded = false;
 
@@ -139,7 +138,7 @@ public class GameController : MonoBehaviour {
 		Invoke ("showAngstBar", 41f);
 
 		// photo appear
-		InvokeRepeating ("throwPhoto", 62f, 5f);
+		InvokeRepeating ("throwPhoto", 62f, 10f);
 		Invoke ("stopPhotoThrow", 100f);
 //		Invoke ("throwPhoto", 62f);
 //		Invoke ("throwPhoto", 64f);
@@ -322,7 +321,6 @@ public class GameController : MonoBehaviour {
 
 		paperGenerator.SendMessage ("StartGame");
 		caughtCount.SetActive (true);
-
 	}
 
 

@@ -7,6 +7,8 @@ public class PaperGenerator : MonoBehaviour {
 	public GameObject paperPrefab;
 	public GameObject clockPrefab;
 	public GameObject broomPrefab;
+	public GameObject photoPrefab;
+	public GameObject neccPrefab;
 
 	public GameObject paperBackground;
 
@@ -23,7 +25,6 @@ public class PaperGenerator : MonoBehaviour {
 	private int paperCaught = 0;
 	private int objectDropped = 0;
 	private int objectDropRate = 1;
-	private int addition = 0;
 
 	private float BAR_ADD_CATCH = 2;
 	private float BAR_ADD_DROP = 8;
@@ -35,7 +36,6 @@ public class PaperGenerator : MonoBehaviour {
 
 	private int spriteNum = 0;
 	private int spawnNec = 0;
-	private int fillRoomRate = 5;
 	private bool epilogued = false;
 
 	public GameObject canvasToDim;
@@ -43,7 +43,7 @@ public class PaperGenerator : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		timeToSpawn = 1f;
+		timeToSpawn = 60f;
 
 		angstBar.minValue = BAR_MIN;
 		angstBar.maxValue = BAR_MAX;
@@ -81,7 +81,7 @@ public class PaperGenerator : MonoBehaviour {
 		switch (spawnNec) {
 		case 1:
 			Sprite soapSprite = Resources.Load<Sprite> ("soap");
-			GameObject soap = Instantiate (paperPrefab);
+			GameObject soap = Instantiate (neccPrefab);
 			soap.GetComponent<SpriteRenderer> ().sprite = soapSprite;
 			soap.transform.SetParent (this.transform);
 			spawnNec = 0;
@@ -90,7 +90,7 @@ public class PaperGenerator : MonoBehaviour {
 			break;
 		case 2 :
 			Sprite tissueSprite = Resources.Load<Sprite> ("tissue");
-			GameObject tissue = Instantiate (paperPrefab);
+			GameObject tissue = Instantiate (neccPrefab);
 			tissue.GetComponent<SpriteRenderer> ().sprite = tissueSprite;
 			tissue.transform.SetParent (this.transform);
 			spawnNec = 0;
@@ -101,7 +101,7 @@ public class PaperGenerator : MonoBehaviour {
 			break;
 		case 3 :
 			Sprite brushSprite = Resources.Load<Sprite> ("toothbrush");
-			GameObject brush = Instantiate (paperPrefab);
+			GameObject brush = Instantiate (neccPrefab);
 			brush.GetComponent<SpriteRenderer> ().sprite = brushSprite;
 			brush.transform.SetParent (this.transform);
 			spawnNec++;
@@ -157,13 +157,7 @@ public class PaperGenerator : MonoBehaviour {
 	}
 
 	void SpawnPhoto() {
-		Sprite photoSprite = Resources.Load<Sprite> ("family portrait");
-		GameObject photo = Instantiate (paperPrefab);
-		photo.tag = "Photo";
-		photo.GetComponent<SpriteRenderer> ().sprite = photoSprite;
-		Debug.Log (photo.transform.localScale);
-		photo.transform.localScale.Scale (new Vector3 (4f, 4f, 4f));
-
+		GameObject photo = Instantiate (photoPrefab);
 		photo.transform.SetParent (this.transform);
 	}
 
