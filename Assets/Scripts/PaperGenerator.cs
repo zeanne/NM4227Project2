@@ -21,6 +21,8 @@ public class PaperGenerator : MonoBehaviour {
 	private float timeToSpawn;
 	private int paperCaught = 0;
 	private int objectDropped = 0;
+	private int objectDropRate = 1;
+	private int addition = 0;
 
 	private float BAR_ADD_CATCH = 2;
 	private float BAR_ADD_DROP = 8;
@@ -32,6 +34,11 @@ public class PaperGenerator : MonoBehaviour {
 
 	private int spriteNum = 0;
 	private int spawnNec = 0;
+	private int fillRoomRate = 5;
+	private bool epilogued = false;
+
+	public GameObject canvasToDim;
+	bool dimLights;
 
 	// Use this for initialization
 	void Start () {
@@ -63,21 +70,33 @@ public class PaperGenerator : MonoBehaviour {
 
 		angstBar.value -= BAR_GRADUAL;
 
+		if (dimLights && canvasToDim.GetComponent<RawImage>().color.a <= 0.6) {
+			Color temp = canvasToDim.GetComponent<RawImage>().color;
+			temp.a += 0.2f;
+			canvasToDim.GetComponent<RawImage> ().color = temp;
+		}
+
 		// spawn tissue / toothbrush / soap in 3 frames
 		switch (spawnNec) {
-		case 1 :
+		case 1:
 			Sprite soapSprite = Resources.Load<Sprite> ("soap");
 			GameObject soap = Instantiate (paperPrefab);
 			soap.GetComponent<SpriteRenderer> ().sprite = soapSprite;
 			soap.transform.SetParent (this.transform);
-			spawnNec++;
+			spawnNec = 0;
+			Invoke ("AddNecSpawn", 0.2f);
+			Invoke ("AddNecSpawn", 0.2f);
 			break;
 		case 2 :
 			Sprite tissueSprite = Resources.Load<Sprite> ("tissue");
 			GameObject tissue = Instantiate (paperPrefab);
 			tissue.GetComponent<SpriteRenderer> ().sprite = tissueSprite;
 			tissue.transform.SetParent (this.transform);
-			spawnNec++;
+			spawnNec = 0;
+			Invoke ("AddNecSpawn", 0.2f);
+			Invoke ("AddNecSpawn", 0.2f);
+			Invoke ("AddNecSpawn", 0.2f);
+
 			break;
 		case 3 :
 			Sprite brushSprite = Resources.Load<Sprite> ("toothbrush");
@@ -113,8 +132,7 @@ public class PaperGenerator : MonoBehaviour {
 	}
 
 	void OnObjectDropped() {
-		objectDropped++;
-
+		objectDropped = objectDropped + objectDropRate;
 
 		if (angstBar.value > 0.8 * BAR_MAX) {
 		} else {
@@ -124,11 +142,6 @@ public class PaperGenerator : MonoBehaviour {
 		BAR_ADD_DROP -= BAR_ADD_DROP_GRADUAL;
 		BAR_ADD_DROP = Mathf.Max (BAR_ADD_DROP, BAR_ADD_DROP_MIN);
 
-	}
-
-	void OnBarMax() {
-//		Time.timeScale = 0;
-//		BAR_GRADUAL = 0;
 	}
 
 	void StartGame() {
@@ -164,8 +177,8 @@ public class PaperGenerator : MonoBehaviour {
 
 	// decrease time to next spawn of paper
 	void IncreasePaperGeneration() {
-		nextTimeToPaperSpawn -= 0.1f;
-		nextTimeToPaperSpawn = Mathf.Max (0.25f, nextTimeToPaperSpawn);
+		nextTimeToPaperSpawn -= 0.8f;
+		nextTimeToPaperSpawn = Mathf.Max (0.50f, nextTimeToPaperSpawn);
 	}
 
 	void SetNextTimeToPaperSpawn(float time) {
@@ -182,13 +195,34 @@ public class PaperGenerator : MonoBehaviour {
 		Sprite ppbg = Resources.Load<Sprite> ("papercover" + spriteNum);
 
 		if (spriteNum == 0) {
+			paperBackground.GetComponent<SpriteRenderer> ().sprite = null;
 		} else if (ppbg != null) {
 			paperBackground.GetComponent<SpriteRenderer> ().sprite = ppbg;
 			if (spriteNum == 10) {
-				angstBar.value = BAR_MAX;
-				OnBarMax ();
-				gameOverBox.gameObject.SetActive (true);
+				if (!epilogued) {
+					epilogued = true;
+					angstBar.value = BAR_MAX;
+					GameObject.FindGameObjectWithTag ("Progress").SendMessage ("startEpilogue");
+
+					SetNextTimeToPaperSpawn (200);
+				}
 			}
 		}
+	}
+
+	void IncreaseRoomFill() {
+		objectDropRate = Mathf.Min (objectDropRate + 1, 5);
+	}
+
+	void DimLights() {
+		dimLights = true;
+	}
+
+	void AddNecSpawn() {
+		spawnNec++;
+	}
+
+	int GetPaperCaughtCount() {
+		return paperCaught;
 	}
 }
