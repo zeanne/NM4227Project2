@@ -139,9 +139,11 @@ public class GameController : MonoBehaviour {
 		Invoke ("showAngstBar", 41f);
 
 		// photo appear
-		Invoke ("throwPhoto", 62f);
-		Invoke ("throwPhoto", 64f);
-		Invoke ("throwPhoto", 66f);
+		InvokeRepeating ("throwPhoto", 62f, 5f);
+		Invoke ("stopPhotoThrow", 100f);
+//		Invoke ("throwPhoto", 62f);
+//		Invoke ("throwPhoto", 64f);
+//		Invoke ("throwPhoto", 66f);
 
 		// necessities appear
 		Invoke ("throwNecessities", 90f);
@@ -369,6 +371,10 @@ public class GameController : MonoBehaviour {
 		paperGenerator.SendMessage ("SpawnPhoto");
 	}
 
+	void stopPhotoThrow() {
+		CancelInvoke ("throwPhoto");
+	}
+
 	void throwNecessities() {
 		paperGenerator.SendMessage ("SpawnNecessities");
 	}
@@ -407,11 +413,10 @@ public class GameController : MonoBehaviour {
 
 	void startEpilogue() {
 
-		Debug.Log ("asdf");
 		nextStr = 20;
 
 		CancelInvoke ();
-		paperGenerator.SendMessage ("GetPaperCaughtCount");
+		paperGenerator.SendMessage ("GetPaperCaughtCount", gameObject);
 
 		InvokeRepeating ("OneSec", 0, 1f);
 
@@ -423,19 +428,31 @@ public class GameController : MonoBehaviour {
 		Invoke ("EndNextMonologueFast", 7f);
 
 		Invoke ("StartNextMonologueSlow", 8f);
-		Invoke ("StartNextMonologueSlow", 20f);
-		Invoke ("StartNextMonologueSlow", 30f);
-		Invoke ("StartNextMonologueSlow", 40f);
+		Invoke ("StartNextMonologueSlow", 18f);
+		Invoke ("StartNextMonologueSlow", 25f);
+		Invoke ("StartNextMonologueSlow", 38f);
 
 		Invoke ("EndNextMonologueSlow", 16f);
-		Invoke ("EndNextMonologueSlow", 26f);
-		Invoke ("EndNextMonologueSlow", 36f);
-		Invoke ("EndNextMonologueFast", 46f);
-//		Invoke ("EndNextMonologueFast", 43f);
-//		Invoke ("EndNextMonologueSlow", 52f);
-//		Invoke ("EndNextMonologueSlow", 62f);
+		Invoke ("EndNextMonologueSlow", 22f);
+		Invoke ("EndNextMonologueSlow", 35f);
+		Invoke ("EndNextMonologueFast", 45f);
+		Invoke ("EndNextMonologueFast", 43f);
+		Invoke ("EndNextMonologueSlow", 52f);
+		Invoke ("EndNextMonologueSlow", 62f);
 
-		Invoke ("ShowFinalStats", 50f);
+		Invoke ("ShowFinalStats", 70f);
+
+//		Invoke ("StartNextMonologueSlow", 8f);
+//		Invoke ("StartNextMonologueSlow", 20f);
+//		Invoke ("StartNextMonologueSlow", 30f);
+//		Invoke ("StartNextMonologueSlow", 40f);
+//
+//		Invoke ("EndNextMonologueSlow", 16f);
+//		Invoke ("EndNextMonologueSlow", 26f);
+//		Invoke ("EndNextMonologueSlow", 36f);
+//		Invoke ("EndNextMonologueFast", 46f);
+//
+//		Invoke ("ShowFinalStats", 50f);
 
 	}
 

@@ -17,6 +17,8 @@ public class PaperController : MonoBehaviour {
 	private string TAG_CLOCK = "Clock";
 	private string TAG_BROOM = "Broom";
 	private string TAG_PAPER = "Paper";
+	private string TAG_PHOTO = "Photo";
+
 
 	// Use this for initialization
 	void Start () {
@@ -70,6 +72,9 @@ public class PaperController : MonoBehaviour {
 
 				} else if (gameObject.CompareTag (TAG_BROOM)) {
 					this.SendMessageUpwards ("OnBroomCaught");
+
+				} else if (gameObject.CompareTag(TAG_PHOTO)) {
+					this.SendMessageUpwards ("OnPhotoCaught");
 				}
 			}
 		}

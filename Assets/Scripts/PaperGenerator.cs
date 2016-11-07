@@ -13,6 +13,7 @@ public class PaperGenerator : MonoBehaviour {
 	public Slider angstBar;
 	public Text caughtText;
 	public GameObject gameOverBox;
+	public GameObject canvasDimmer;
 
 	private Sprite[] wastePaperArray;
 
@@ -131,6 +132,10 @@ public class PaperGenerator : MonoBehaviour {
 		objectDropped -= 10;
 	}
 
+	void OnPhotoCaught() {
+		canvasDimmer.GetComponent<Animation> ().Play ();
+	}
+
 	void OnObjectDropped() {
 		objectDropped = objectDropped + objectDropRate;
 
@@ -154,6 +159,7 @@ public class PaperGenerator : MonoBehaviour {
 	void SpawnPhoto() {
 		Sprite photoSprite = Resources.Load<Sprite> ("family portrait");
 		GameObject photo = Instantiate (paperPrefab);
+		photo.tag = "Photo";
 		photo.GetComponent<SpriteRenderer> ().sprite = photoSprite;
 		Debug.Log (photo.transform.localScale);
 		photo.transform.localScale.Scale (new Vector3 (4f, 4f, 4f));
@@ -222,7 +228,7 @@ public class PaperGenerator : MonoBehaviour {
 		spawnNec++;
 	}
 
-	int GetPaperCaughtCount() {
-		return paperCaught;
+	void GetPaperCaughtCount(GameObject gameObj) {
+		gameObj.SendMessage ("SetItemsCaught", paperCaught);
 	}
 }
