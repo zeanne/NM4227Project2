@@ -26,6 +26,10 @@ public class GameController : MonoBehaviour {
 	public GameObject epilogueText;
 	public GameObject epilogueStats;
 
+	public GameObject musicObject;
+	public AudioClip betterdays;
+	public AudioClip tomorrow;
+
 	private GameObject fadingText;
 
 	bool fading;
@@ -47,41 +51,43 @@ public class GameController : MonoBehaviour {
 	private int nextStr = 0;
 
 	string[] monologue = new string[] {
-		"Since young, my dream was always to be the world's greatest songwriter. But writing was never easy. With opportunities coming my way, the stress to write the next hit followed. I wrote the first piece...",
+		"Since young, my dream was always to be the world's greatest songwriter. But writing was never easy. With opportunities coming my way, the stress to write the next hit followed.\n\nI wrote the first piece...",
 		"I wasn’t satisfied. I threw it away.",
 		"Then came the second piece, third piece, fourth piece…. I wanted my songs to be perfect.",
-		"The journey was lonely. At the end of each day, I would look at my dustbin, filled with pieces of my mind. The dustbin was my only companion.",
-		"The stress in me gradually became a burden. I started feeling a sense of loss, a sense of ANGST.",
+		"The journey was lonely.\nAt the end of each day, I would look at my dustbin, filled with pieces of my mind.\nThe dustbin was my only companion.",
+		"The stress in me gradually became a burden.\nI started feeling a sense of loss,\na sense of ANGST.",
 		"I wanted to be a perfectionist.",
 		"When I see my room in chaos with my lost mind, the anger in me grew. It’s like… angst could never leave me. It has became a part of me.",
-		"I wasn’t always this lonely. I had family, I had friends.",
+		"I wasn’t always this lonely.\nI had family, I had friends.",
 		"But slowly, as I faded into my world of music, they left. One after another. Perhaps, it was me who threw them away with those imperfect music pieces. All of them.",
-		"Gradually, I lost the ability to be normal. I eat for the sake of being alive. I take showers to keep me awake. But all of it, they mean nothing to me.",
-		"Occasionally, I would go out to buy necessities. They were not toothbrush, soap or tissue paper. I would buy manuscript papers, which most landed back in the dustbin.",
-		"But to me, leaving my table, my pen, my manuscripts was a waste of time. The anger in me grew.",
+		"Gradually, I lost the ability to be normal.\nI eat for the sake of being alive.\nI take showers to keep me awake.\nBut all of it, they mean nothing to me.",
+		"Occasionally, I would go out to buy necessities. They were not toothbrush, soap or tissue paper.\nI would buy manuscript papers, which most landed back in the dustbin.",
+		"But to me, leaving my table, my pen, my manuscripts was a waste of time.\nThe anger in me grew.",
 		"So I continued writing, and the imperfections started to build up.",
 		"Until one day... I realized that I have to let go of these imperfections before I can move on.",
 		"So, I swept away whatever I have built within me.",
 		"But, an unknown sense of emptiness started to engulf me.... Like an uncontrollable fire burning me alive. Loss. Anger.",
 		"So I wrote, and wrote and wrote..... \nAnd I threw, and threw, and threw....",
-		"What? Even my only companion is dreading me? It looked like she had shrunk as my imperfections grew bigger. We grew apart.",
-		"Gradually, I got lost... The lights began to dim. All my imperfections...",
+		"What? Even my only companion is dreading me?\nIt looked like she had shrunk as my imperfections grew bigger. We grew apart.",
+		"Gradually, I got lost...\nThe lights began to dim.\nAll my imperfections...",
 		"I was drowning in them.",
 		"",
-		"After being buried in darkness, I finally saw the light. It dawned onto me that in life, perfection is not always achievable.\n\nThe melodies I wrote... They were brokenly perfect. ",
-		"The angst in me... \nIt kept me going, it kept me alive, but it kept me from finding peace and happiness... \n\nTo the point where it exploded me. ",
-		"When I finally played back the imperfections altogether, they sounded like a perfect piece. \n\nPerhaps, the hit song that I yearned for was there all along, but I was too unwilling to embrace my imperfect perfect piece.",
-		"Imperfections kept me angst. \n\nPerfectionism kept me away from all that my life could have been."
+		"After being buried in darkness, I finally saw the light. It dawned onto me that in life, perfection is not always achievable.\nThe melodies I wrote... They were brokenly perfect. ",
+		"The angst in me... \nIt kept me going, it kept me alive,\nbut it kept me from finding peace and happiness... \nTo the point where it exploded me. ",
+		"When I finally played back the imperfections altogether, they sounded like a perfect piece. \nPerhaps, the hit song that I yearned for was there all along, but I was too unwilling to embrace my imperfect perfect piece.",
+		"Imperfections kept me angst. \n\nPerfectionism kept me away from all that\nmy life could have been."
 	};
 
 	// Use this for initialization
 	void Start () {
 
+		if (musicObject.GetComponent<AudioSource> ().isPlaying) {
+			musicObject.GetComponent<AudioSource> ().Stop ();
+		}
+
 		fadingText = prologueText;
 
 		paperGenerator.SendMessage ("SetNextTimeToPaperSpawn", 60f);
-
-		InvokeRepeating ("OneSec", 0, 1f);
 
 		// for prologue
 		Invoke ("StartNextMonologueSlow", 0f);
@@ -95,85 +101,6 @@ public class GameController : MonoBehaviour {
 		Invoke ("EndNextMonologueFast", 22f);
 
 		Invoke ("EndPrologue", 24f);
-
-
-		// game officially starts
-		Invoke ("StartNextMonologueSlow", 26f);
-		Invoke ("StartNextMonologueSlow", 40f); // angstbar
-		Invoke ("StartNextMonologueFast", 46f);
-		Invoke ("StartNextMonologueSlow", 50f);
-		Invoke ("StartNextMonologueSlow", 60f); // photo
-		Invoke ("StartNextMonologueSlow", 68f);
-		Invoke ("StartNextMonologueSlow", 78f);
-		Invoke ("StartNextMonologueSlow", 88f); // necessities
-		Invoke ("StartNextMonologueFast", 101f); // clock
-		Invoke ("StartNextMonologueFast", 115f); // faster
-		Invoke ("StartNextMonologueFast", 121f); // broom
-		Invoke ("StartNextMonologueSlow", 127f);
-		Invoke ("StartNextMonologueSlow", 139f); // faster
-		Invoke ("StartNextMonologueSlow", 145f);
-		Invoke ("StartNextMonologueSlow", 170f); // shrink
-		Invoke ("StartNextMonologueSlow", 185f); // dim
-		Invoke ("StartNextMonologueFast", 203f);
-
-		Invoke ("EndNextMonologueSlow", 35f);
-		Invoke ("EndNextMonologueFast", 45f); // angstbar
-		Invoke ("EndNextMonologueFast", 49f);
-		Invoke ("EndNextMonologueSlow", 57f);
-		Invoke ("EndNextMonologueSlow", 65f); // photo
-		Invoke ("EndNextMonologueSlow", 75f);
-		Invoke ("EndNextMonologueSlow", 85f);
-		Invoke ("EndNextMonologueSlow", 98f); // necessities
-		Invoke ("EndNextMonologueSlow", 110f); // clock
-		Invoke ("EndNextMonologueFast", 119f); // faster
-		Invoke ("EndNextMonologueFast", 125f); // broom
-		Invoke ("EndNextMonologueSlow", 135f);
-		Invoke ("EndNextMonologueFast", 143f); // faster
-		Invoke ("EndNextMonologueSlow", 150f);
-		Invoke ("EndNextMonologueSlow", 180f); // shrink
-		Invoke ("EndNextMonologueSlow", 200f); // dim
-		Invoke ("EndNextMonologueSlow", 217f);
-
-		// angst bar appear
-		Invoke ("showAngstBar", 41f);
-
-		// photo appear
-		InvokeRepeating ("throwPhoto", 62f, 10f);
-		Invoke ("stopPhotoThrow", 100f);
-//		Invoke ("throwPhoto", 62f);
-//		Invoke ("throwPhoto", 64f);
-//		Invoke ("throwPhoto", 66f);
-
-		// necessities appear
-		Invoke ("throwNecessities", 90f);
-		Invoke ("throwNecessities", 94f);
-
-		// clock appear, and every 20 seconds thereafter
-		InvokeRepeating ("throwClock", 102f, 20f);
-
-		// broom appear, and every 30 seconds thereafter until got lost
-		InvokeRepeating ("throwBroom", 124f, 30f);
-		Invoke ("cancelBroomThrow", 185f);
-
-		// paper appear faster
-		InvokeRepeating("throwPaperFaster", 115f, 20f);
-
-		// shrink basket
-		Invoke ("shrinkBasket", 155f);
-
-		// start dimming screen
-		Invoke ("startScreenDim", 190f);
-
-		// fill the room with paper
-		Invoke ("fillRoomFaster", 180f);
-		Invoke ("fillRoomFaster", 190f);
-		Invoke ("fillRoomFaster", 200f);
-
-
-		// start epilogue after 5 mins if player still surviving
-		Invoke ("startEpilogueIfAlive", 300f);
-
-
 	}
 
 	void Update() {
@@ -245,17 +172,15 @@ public class GameController : MonoBehaviour {
 		} else {
 			if (dimScreen && prologueCanvas.GetComponent<RawImage> ().color.a < 0.8) {
 				Color temp = prologueCanvas.GetComponent<RawImage> ().color;
-				temp.a += 0.0005f;
+				temp.a += 0.001f;
 				prologueCanvas.GetComponent<RawImage> ().color = temp;
 			}
-
 
 			if (fadeAngstBar) {
 
 				Color temp;
 
 				temp = angstFill.GetComponent<Image> ().color;
-				Debug.Log (temp);
 				temp.a = Mathf.Min (temp.a + 0.01f, 1f);
 				angstFill.GetComponent<Image> ().color = temp;
 
@@ -314,46 +239,43 @@ public class GameController : MonoBehaviour {
 	}
 
 	public void GameStart() {
-		Time.timeScale = 1;
+		//Time.timeScale = 1; /**/
 		menuPressSpace.SetActive (false);
 		menuPressSpaceText.SetActive (false);
 		gamePause = false;
 
 		paperGenerator.SendMessage ("StartGame");
 		caughtCount.SetActive (true);
+
+		startGame (); /**/
 	}
 
 
 	void StartNextMonologueSlow() {
-		Debug.Log ("next monologue start slow");
+		Debug.Log ("next monologue start slow time = " + Time.time);
 		FadingIn (3f);
 	}
 
 	void StartNextMonologueFast() {
-		Debug.Log ("next monologue start fast");
+		Debug.Log ("next monologue start fast time = " + Time.time);
 		FadingIn (1f);
 	}
 
 	void EndNextMonologueSlow() {
-		Debug.Log ("next monologue end slow");
+		Debug.Log ("next monologue end slow time = " + Time.time);
 		FadingOut (3f);
 	}
 
 	void EndNextMonologueFast() {
-		Debug.Log ("next monologue end fast");
+		Debug.Log ("next monologue end fast time = " + Time.time);
 		FadingOut(1f);
 	}
 
 	void EndPrologue() {
 
-		GameObject pp = GameObject.FindGameObjectWithTag ("Paper");
-		if (pp != null) {
-			Destroy (pp);
-		}
 		menuPressSpace.SetActive (true);
 		menuPressSpaceText.SetActive (true);
 		gamePause = true;
-		Time.timeScale = 0;
 	}
 
 	void showInstructions() {
@@ -409,14 +331,100 @@ public class GameController : MonoBehaviour {
 		dimScreen = true;
 	}
 
+	void startGame() {
+
+		musicObject.GetComponent<AudioSource> ().clip = tomorrow;
+		musicObject.GetComponent<AudioSource> ().Play ();
+
+		// game officially starts
+		Invoke ("StartNextMonologueSlow", 1f);
+		Invoke ("StartNextMonologueSlow", 14f); // angstbar
+		Invoke ("StartNextMonologueFast", 22f);
+		Invoke ("StartNextMonologueSlow", 26f);
+		Invoke ("StartNextMonologueSlow", 35f); // photo
+		Invoke ("StartNextMonologueSlow", 43f);
+		Invoke ("StartNextMonologueSlow", 53f);
+		Invoke ("StartNextMonologueSlow", 63f); // necessities
+		Invoke ("StartNextMonologueFast", 76f); // clock
+		Invoke ("StartNextMonologueFast", 90f); // faster
+		Invoke ("StartNextMonologueFast", 96f); 
+		Invoke ("StartNextMonologueSlow", 102f); // broom
+		Invoke ("StartNextMonologueSlow", 114f); // faster
+		Invoke ("StartNextMonologueSlow", 120f);
+		Invoke ("StartNextMonologueSlow", 145f); // shrink
+		Invoke ("StartNextMonologueSlow", 160f); // dim
+		Invoke ("StartNextMonologueFast", 178f);
+
+		Invoke ("EndNextMonologueSlow", 10f);
+		Invoke ("EndNextMonologueFast", 20f); // angstbar
+		Invoke ("EndNextMonologueFast", 24f);
+		Invoke ("EndNextMonologueSlow", 32f);
+		Invoke ("EndNextMonologueSlow", 40f); // photo
+		Invoke ("EndNextMonologueSlow", 50f);
+		Invoke ("EndNextMonologueSlow", 60f);
+		Invoke ("EndNextMonologueSlow", 73f); // necessities
+		Invoke ("EndNextMonologueSlow", 85f); // clock
+		Invoke ("EndNextMonologueFast", 94f); // faster
+		Invoke ("EndNextMonologueFast", 100f); // broom
+		Invoke ("EndNextMonologueSlow", 110f);
+		Invoke ("EndNextMonologueFast", 118f); // faster
+		Invoke ("EndNextMonologueSlow", 125f);
+		Invoke ("EndNextMonologueSlow", 155f); // shrink
+		Invoke ("EndNextMonologueSlow", 175f); // dim
+		Invoke ("EndNextMonologueSlow", 192f);
+
+		// angst bar appear
+		Invoke ("showAngstBar", 16f);
+
+		// photo appear
+		InvokeRepeating ("throwPhoto", 37f, 10f);
+		Invoke ("stopPhotoThrow", 75f);
+//		Invoke ("throwPhoto", 62f);
+//		Invoke ("throwPhoto", 64f);
+//		Invoke ("throwPhoto", 66f);
+
+		// necessities appear
+		Invoke ("throwNecessities", 65f);
+		Invoke ("throwNecessities", 69f);
+
+		// clock appear, and every 20 seconds thereafter
+		InvokeRepeating ("throwClock", 77f, 20f);
+
+		// broom appear, and every 30 seconds thereafter until got lost
+		InvokeRepeating ("throwBroom", 105f, 30f);
+		Invoke ("cancelBroomThrow", 200f);
+
+		// paper appear faster
+		InvokeRepeating("throwPaperFaster", 90f, 20f);
+
+		// shrink basket
+		Invoke ("shrinkBasket", 130f);
+
+		// start dimming screen
+		Invoke ("startScreenDim", 165f);
+
+		// fill the room with paper
+		Invoke ("fillRoomFaster", 155f);
+		Invoke ("fillRoomFaster", 165f);
+		Invoke ("fillRoomFaster", 175f);
+
+		Invoke ("startEpilogueIfAlive", 300f);
+	}
+
 	void startEpilogue() {
+
+		if (musicObject.GetComponent<AudioSource> ().isPlaying) {
+			musicObject.GetComponent<AudioSource> ().Stop ();
+		}
+
+		musicObject.GetComponent<AudioSource> ().clip = betterdays;
+		musicObject.GetComponent<AudioSource> ().Play ();
 
 		nextStr = 20;
 
 		CancelInvoke ();
 		paperGenerator.SendMessage ("GetPaperCaughtCount", gameObject);
-
-		InvokeRepeating ("OneSec", 0, 1f);
+		paperGenerator.SendMessage ("StopPaperSpawn");
 
 		epilogueStarted = true;
 		fadingText = epilogueText;
@@ -426,31 +434,16 @@ public class GameController : MonoBehaviour {
 		Invoke ("EndNextMonologueFast", 7f);
 
 		Invoke ("StartNextMonologueSlow", 8f);
-		Invoke ("StartNextMonologueSlow", 18f);
-		Invoke ("StartNextMonologueSlow", 25f);
-		Invoke ("StartNextMonologueSlow", 38f);
+		Invoke ("StartNextMonologueSlow", 21f);
+		Invoke ("StartNextMonologueSlow", 34f);
+		Invoke ("StartNextMonologueSlow", 47f);
 
-		Invoke ("EndNextMonologueSlow", 16f);
-		Invoke ("EndNextMonologueSlow", 22f);
-		Invoke ("EndNextMonologueSlow", 35f);
-		Invoke ("EndNextMonologueFast", 45f);
-		Invoke ("EndNextMonologueFast", 43f);
-		Invoke ("EndNextMonologueSlow", 52f);
-		Invoke ("EndNextMonologueSlow", 62f);
+		Invoke ("EndNextMonologueSlow", 17f);
+		Invoke ("EndNextMonologueSlow", 30f);
+		Invoke ("EndNextMonologueSlow", 43f);
+		Invoke ("EndNextMonologueFast", 65f);
 
-		Invoke ("ShowFinalStats", 70f);
-
-//		Invoke ("StartNextMonologueSlow", 8f);
-//		Invoke ("StartNextMonologueSlow", 20f);
-//		Invoke ("StartNextMonologueSlow", 30f);
-//		Invoke ("StartNextMonologueSlow", 40f);
-//
-//		Invoke ("EndNextMonologueSlow", 16f);
-//		Invoke ("EndNextMonologueSlow", 26f);
-//		Invoke ("EndNextMonologueSlow", 36f);
-//		Invoke ("EndNextMonologueFast", 46f);
-//
-//		Invoke ("ShowFinalStats", 50f);
+		Invoke ("ShowFinalStats", 55f);
 
 	}
 
@@ -469,10 +462,5 @@ public class GameController : MonoBehaviour {
 			startEpilogue ();
 		}
 	}
-
-	void OneSec() {
-		Debug.Log (Time.time);
-	}
-		
 }
 

@@ -25,6 +25,7 @@ public class PaperGenerator : MonoBehaviour {
 	private int paperCaught = 0;
 	private int objectDropped = 0;
 	private int objectDropRate = 1;
+	private bool gameStarted = false;
 
 	private float BAR_ADD_CATCH = 2;
 	private float BAR_ADD_DROP = 8;
@@ -37,6 +38,7 @@ public class PaperGenerator : MonoBehaviour {
 	private int spriteNum = 0;
 	private int spawnNec = 0;
 	private bool epilogued = false;
+	private bool stopPaperSpawn = false;
 
 	public GameObject canvasToDim;
 	bool dimLights;
@@ -56,6 +58,10 @@ public class PaperGenerator : MonoBehaviour {
 
 	// Update is called once per frame
 	void Update () {
+		if (stopPaperSpawn) {
+			return;
+		}
+
 		timeToSpawn -= Time.deltaTime;
 		if (timeToSpawn < 0) {
 
@@ -67,14 +73,17 @@ public class PaperGenerator : MonoBehaviour {
 			timeToSpawn = nextTimeToPaperSpawn;
 		}
 
-		SetPaperFillBackground ();
+		if (gameStarted) {
+			SetPaperFillBackground ();
 
-		angstBar.value -= BAR_GRADUAL;
+			angstBar.value -= BAR_GRADUAL;
 
-		if (dimLights && canvasToDim.GetComponent<RawImage>().color.a <= 0.6) {
-			Color temp = canvasToDim.GetComponent<RawImage>().color;
-			temp.a += 0.2f;
-			canvasToDim.GetComponent<RawImage> ().color = temp;
+			if (dimLights && canvasToDim.GetComponent<RawImage> ().color.a <= 0.6) {
+				Color temp = canvasToDim.GetComponent<RawImage> ().color;
+				temp.a += 0.2f;
+				canvasToDim.GetComponent<RawImage> ().color = temp;
+
+			}
 		}
 
 		// spawn tissue / toothbrush / soap in 3 frames
@@ -152,6 +161,7 @@ public class PaperGenerator : MonoBehaviour {
 	void StartGame() {
 		paperCaught = 0;
 		objectDropped = 0;
+		gameStarted = true;
 
 		caughtText.text = "Caught: 0...";
 	}
@@ -224,5 +234,9 @@ public class PaperGenerator : MonoBehaviour {
 
 	void GetPaperCaughtCount(GameObject gameObj) {
 		gameObj.SendMessage ("SetItemsCaught", paperCaught);
+	}
+
+	void StopPaperSpawn() {
+		stopPaperSpawn = true;
 	}
 }
